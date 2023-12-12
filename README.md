@@ -1,7 +1,7 @@
 # Home-Service Booking and Feedback System
 
 ## Overview
-This project is a Home-Service Booking and Feedback System that allows users to book cleaning and pest control services, leave feedback, and enables admin users to view feedback and manage appointments. It is built using React for the frontend and utilizes a mock JSON server for the backend to store and retrieve data.
+This project is a Home-Service Booking and Feedback System that allows users to book cleaning and pest control services, leave feedback, and enables admin users to view feedback and manage appointments. It is built using React for the frontend and utilizes a mock JSON server (or MySQL database via Spring Boot JPA) for the backend to store and retrieve data.
 
 ## Features
 - User Registration and Authentication
@@ -25,7 +25,7 @@ This project is a Home-Service Booking and Feedback System that allows users to 
 - View feedback submitted by users.
 - Manage appointments, including approving, rescheduling, or canceling appointments.
 
-## Database (JSON Server)
+## Config for JSON Server
 - The mock JSON server is used for storing and retrieving data.
 - Data is saved and retrieved from the `db.json` file in the `backend` directory.
 
