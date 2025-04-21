@@ -27,7 +27,7 @@ public class CleaningController {
 
     @Autowired
     private CleaningRepository cleaningRepository;
-    @PostMapping(value="/bookfurniture",consumes = {"application/json"},produces = {"application/json"})
+    @PostMapping(value="/bookcleaning",consumes = {"application/json"},produces = {"application/json"})
     public ResponseEntity<String> bookUserRequest(@RequestBody Cleaning cleaning) {
         System.out.println(cleaning);
         String msg = cleaningService.saveCleaning(cleaning);

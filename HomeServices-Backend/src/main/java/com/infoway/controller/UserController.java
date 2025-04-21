@@ -22,17 +22,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    
 
     @Autowired
     private JavaMailSenderAPI javaMailSenderAPI;
     @PostMapping(value="/signup", consumes={"application/json"})
     public ResponseEntity<String> signup(@RequestBody User user) {
         String msg = userService.saveUser(user);
-        String mail = user.getEmail();
-        javaMailSenderAPI.sendMail(mail,
-                "sign up successfull to home services",
-                "your sign up success full to our application" +
-                        "to get services login to our official web site and get bookings for services");
+        
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
