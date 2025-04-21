@@ -1,0 +1,20 @@
+{
+  "name": "home-services",
+  "version": "1.0.0",
+  "description": "This project is a Home-Service Booking and Feedback System that allows users to book cleaning and pest control services, leave feedback, and enables admin users to view feedback and manage appointments. It is built using React for the frontend and utilizes a mock JSON server (or MySQL database via Spring Boot JPA) for the backend to store and retrieve data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vidhan31/Home-Services.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vidhan31/Home-Services/issues"
+  },
+  "homepage": "https://github.com/Vidhan31/Home-Services#readme"
+}

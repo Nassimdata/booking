@@ -1,148 +1,60 @@
-import React, {useState} from 'react'
-import {motion} from 'framer-motion'
-import {useNavigate} from 'react-router'
-import axios from 'axios'
-import {toast} from 'react-toastify'
-import logo from '../../images/asy.png'
-import signinImg from '../../images/avatarMale.png'
-import './Sign.css'
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import './Sign.css';
 
 export default function Signin() {
-    const scroolUp = () => {
-        window.scrollTo(0, 0)
-    }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useContext(AuthContext);
 
-    const [email, setemail] = useState('')
-    const [password, setPassword] = useState('')
-    const navigate = useNavigate()
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    login(email, password);
+  };
 
-    const SignIn = () => {
-        const body = {
-            email, password
-
-        }
-        if (email == "admin@gmail.com" && password == "admin") {
-            toast.success("Loged in As Admin");
-            navigate('/Admin')
-        } else {
-            const url = `http://localhost:3001/user/signin`
-            axios.post(url, body, config).then((response) => {
-                const result = response.data
-                console.log(result.status);
-                if (result.status == undefined) {
-                    sessionStorage.setItem('userEmail', email);
-
-                    // Replace with the actual field name from the response
-                    navigate('/Services')
-                    toast.success("Logged in successfully")
-                } else {
-                    toast.error(result['error'])
-                }
-
-            })
-        }
-    }
-    return (
-        <motion.div style={{overflowX: "hidden"}} onLoad={scroolUp} className='fixedcontent'
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    transition={{duration: 0.3}}
-        >
-            <div className="row shadow sticky-top">
-                <nav className="navbar navbar-expand-lg" style={{backgroundColor: "black"}}>
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href='/'><img src={logo} alt="" id='headerlogoProfile'/></a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation" style={{backgroundColor: "white"}}>
-                            <span className="navbar-toggler-icon" style={{backgroundColor: "grey"}}></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" onClick={() => (navigate('/'))}
-                                       id='headerBtn'>Home</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" onClick={() => (navigate('/aboutus'))}
-                                       id='headerBtn'>About</a>
-                                </li>
-
-                                <li>
-
-                                </li>
-                            </ul>
-
-                            <div className=''>
-                                <motion.button className='btn btn-primary SignButton float-start'
-                                               whileHover={{backgroundColor: "rgb(220, 222, 224)", color: "black"}}
-                                               whileTap={{backgroundColor: "rgb(220, 222, 224)", color: "black"}}
-                                               onClick={() => (navigate('/signup'))}
-                                >Sign up
-                                </motion.button>
-                            </div>
-
-                        </div>
-                    </div>
-                </nav>
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <form onSubmit={handleSignIn} className="form-signin">
+            <h1 className="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
+            <div className="form-floating mb-3">
+              <input
+                type="email"
+                className="form-control"
+                id="floatingEmail"
+                placeholder="name@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label htmlFor="floatingEmail">Email address</label>
             </div>
-            <br/>
-            <div style={{backgroundColor: "whitesmoke"}}>
-                <br/>
-                <div className='container' style={{backgroundColor: "white", minHeight: "300px"}}>
-                    <br/>
-                    <center><h3 className='py-3'>SignIn Here</h3></center>
-                    <hr/>
-                    <div className='row'>
-                        <div className="col">
-                            <center><img src={signinImg} alt="" style={{marginTop: "2%", width: "80%"}}/></center>
-                        </div>
-                        <div className="col" style={{padding: "1rem"}}>
-                            <div className="form">
-                                <form action="JavaScript:SignIn()">
-                                    <div className="mb-3">
-                                        <label className="label-control">Email</label>
-                                        <input onChange={e => (
-                                            setemail(e.target.value)
-                                        )}
-                                               required="true" type="email" className="form-control shadow"/>
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label className="label-control">Password</label>
-                                        <input onChange={e => (
-                                            setPassword(e.target.value)
-                                        )}
-                                               minLength="5" maxLength="10"
-                                               required="true" type="password" className="form-control shadow"/>
-                                    </div>
-                                    <div>
-                                        <h6>No account yet ? <a style={{color: "blue", cursor: "pointer"}}
-                                                                onClick={() => (navigate('/signup'))}>Sign Up</a></h6>
-                                    </div>
-                                    <div>
-                                        <h6 style={{color: "grey"}}>All Rights reserved with @Home-Services</h6>
-                                    </div>
-                                    <div className="col">
-                                        <motion.button className='float-end UpBtn'
-                                                       whileHover={{backgroundColor: "rgb(7, 84, 133)", color: "white"}}
-                                                       onClick={SignIn}
-                                        >Submit
-                                        </motion.button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-                <br/>
+            <div className="form-floating mb-3">
+              <input
+                type="password"
+                className="form-control"
+                id="floatingPassword"
+                placeholder="Password"
+                required
+                minLength="5"
+                maxLength="10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label htmlFor="floatingPassword">Password</label>
             </div>
-        </motion.div>
-    )
+            <button className="w-100 btn btn-lg btn-primary mb-3" type="submit">
+              Sign in
+            </button>
+            <p className="text-center">
+              <a href="/signup" className="link-primary">
+                Don't have an account? Sign Up
+              </a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }

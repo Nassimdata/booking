@@ -1,118 +1,85 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router'
 import { toast } from 'react-toastify'
 import logo from '../../images/asy.png'
 import axios from "axios";
-
-
+import URL from "../URL/Url"
 import './booking.css'
 
 export default function Bookings() {
- 
     const [data, setData] = useState([]);
+
     useEffect(() => {
-        const url = `http://localhost:3002/get`;
-        axios.get(url).then((response) => {
-          const result = response.data;
-          setData(result);
-          console.log(result.status);
+        const userId = sessionStorage.getItem("userId") // Make sure this is set at login
+        console.log(userId)
+        if (!userId) {
+            toast.error("User ID not found. Please log in again.");
+            return;
+        }
+        const url = `${URL}user/cleaning/getbyidcleaning`
+        axios.get(url, {
+            params: { userId: userId }
+        }).then((response) => {
+            const result = response.data;
+            setData(result);
+        }).catch(err => {
+            console.error(err);
+            toast.error("Failed to fetch data");
         });
-      }, []); 
-      
-   
-    const scroolUp = () => {
-        window.scrollTo(0, 0)
-    }
-    const navigate = useNavigate()
-    const ask = () => {
+    }, []);
 
-        navigate("/Admin");
-
-    };
+    const navigate = useNavigate();
 
     const logout = () => {
-        toast.error("Logging Off")
+        toast.error("Logging Off");
         alert("Logging off");
         navigate("/");
     };
-    const [approved, setApproved] = useState(false);
-    const handleApprove = () => {
-        setApproved(true);
+
+    const handleApprove = (itemId) => {
+        const approvedData = { userId: itemId, status: "Approved" }; // Adjust "Approved" as needed
+        axios.post(`${URL}user/cleaning/approve`, approvedData)
+            .then((response) => {
+                toast.success("Approved successfully");
+                // Optionally remove the approved request from the list
+                setData(prevData => prevData.filter(item => item.id !== itemId));
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error("Approval failed");
+            });
     };
+
     return (
-        <motion.div style={{ overflowX: "hidden" }} onLoad={scroolUp} className='fixedcontent'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className="row shadow sticky-top"  >
-                <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "black" }}>
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href='/Admin'
-                        ><img src={logo} alt="" id='headerlogoProfile' /></a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style={{ backgroundColor: "white" }}>
-                            <span className="navbar-toggler-icon" style={{ backgroundColor: "grey" }}></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" onClick={() => (ask())} id='headerBtn'>Home</a>
-                                </li>
-
-                            </ul>
-                            <div className=''>
-                                <motion.button className='btn btn-primary SignButton'
-                                    whileHover={{ backgroundColor: "rgb(220, 222, 224)", color: "black" }}
-                                    whileTap={{ backgroundColor: "rgb(220, 222, 224)", color: "black" }}
-                                    onClick={() => (logout())}
-                                >Logout</motion.button>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div >
-            <br />
-            <br></br>
-            <br />
-            <br />
-
-            <div className='container'>
-                <div className='row text-center table-responsive-xl'>
-                    <table className='table table-hover table-dark'>
-                        <thead>
-                            <tr className='bg-warning'>
-                                <th className='bg-primary'>ID</th>
-                                <th >phoneno</th>
-                                <th className='bg-primary'>address</th>
-                                <th>date</th>
-                                <th className='bg-primary'>rooms</th>
-                                <th>Remove bookings</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td> {/* Replace 'name' with the actual property name */}
-                                    <td>{item.phoneno}</td>
-                                    <td>{item.address}</td>
-                                    <td>{item.date}</td>
-                                    <td>{item.rooms}</td>
-                                    <td>
-
-                                       
-                                        <button className='btn btn-danger'>Delete</button>
-                                                                      
-                                    </td>
-                            </tr>
-                            ))}
-                    </tbody>
-                </table>
-            </div>
+        <div className='container'>
+            <table className='table table-hover table-bordered table-striped table-sm'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Date</th>
+                        <th>Rooms</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.phoneno}</td>
+                            <td>{item.address}</td>
+                            <td>{item.date}</td>
+                            <td>{item.rooms}</td>
+                            <td>
+                                <button className='btn btn-primary me-2' onClick={() => handleApprove(item.id)}>Approve</button>
+                                <button className='btn btn-danger'>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
-
-        </motion.div >
-
     );
 }

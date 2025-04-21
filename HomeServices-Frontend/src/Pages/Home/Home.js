@@ -1,135 +1,113 @@
-import { motion } from 'framer-motion'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router'
-import logo from '../../images/asy.png'
-import deal1 from '../../images/card1.jpg'
-import deal2 from '../../images/card2.jpg'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Home.css'
 
 export default function Home() {
-
-  const [UpModal, setsignUpModal] = useState(false)
-  const openSignUp = () => setsignUpModal(true)
-  const closeSignUp = () => setsignUpModal(false)
-
-  const [InModal, setsignInModal] = useState(false)
-  const openSignIn = () => setsignInModal(true)
-  const closeSignIn = () => setsignInModal(false)
-
   const navigate = useNavigate()
 
-  const loginstatus = sessionStorage.getItem("currentloginStatus")
-  const chechLogin = () => {
-    if (loginstatus != 1) {
-      var drop = document.getElementById('dropdown-basic')
-      drop.disabled = true
-    }
-  }
-
   return (
-    <div style={{ overflowX: "hidden" }}>
-      <div >
-        <div onLoad={chechLogin}>
-          <div className="row shadow sticky-top"  >
-            <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "black" }}>
-              <div className="container-fluid">
-                <a className="navbar-brand"  href='/'><img src={logo} alt="" id='headerlogoProfile' /></a>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
-                  <span className="navbar-toggler-icon" style={{ backgroundColor: "white" }}></span>
-                  <span className="navbar-toggler-icon" style={{ backgroundColor: "white" }}></span>
-                  <span className="navbar-toggler-icon" style={{ backgroundColor: "white" }}></span>
-                </button>
-                
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item">
-                      <a className="nav-link active" aria-current="page" onClick={() => (navigate('/'))} id='headerBtn'>Home</a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" onClick={() => (navigate('/aboutus'))} id='headerBtn'>About</a>
-                    </li>
-                    {/* <li className="nav-item">
-                      <a className="nav-link" onClick={() => (navigate('/beverages'))} id='headerBtn'>Contact</a>
-                    </li> */}
-                    <li>
+    <div>
+      {/* Hero Section */}
+      <section className="text-center bg-primary text-white">
+        <div className="p-5 container">
+          <h1 className="display-4">Effortless Booking Services</h1>
+          <p className="lead">We make cleaning and other home services easy and affordable.</p>
+          <button
+            className="btn btn-light btn-lg"
+            onClick={() => navigate('/signin')}
+          >
+            Book Now
+          </button>
+        </div>
+      </section>
 
-                    </li>
-                  </ul>
-                  <div className=''>
-                    <motion.button className='btn btn-primary SignButton'
-                      whileHover={{ backgroundColor: "rgb(220, 222, 224)", color: "black" }}
-                      whileTap={{ backgroundColor: "rgb(220, 222, 224)", color: "black" }}
-                      onClick={() => (navigate('/signin'))}
-                    >Sign In</motion.button>
-                  </div>
-                  <div className=''>
-                    <motion.button className='btn btn-primary SignButton float-start'
-                      whileHover={{ backgroundColor: "rgb(220, 222, 224)", color: "black" }}
-                      whileTap={{ backgroundColor: "rgb(220, 222, 224)", color: "black" }}
-                      onClick={() => (navigate('/signup'))}
-                    >Sign up</motion.button>
-                  </div>
+      {/* CTA Section */}
+      <section className="py-5 bg-light">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="text-center col-12">
+              <h2>Ready to Experience the Difference?</h2>
+              <p>
+                Our specialists are ready to help you transform your home with top-quality cleaning,
+                pest control, moving services, and more.
+              </p>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate('/signin')}
+              >
+                Get Started
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      {/* Services Section */}
+      <section className="py-2">
+        <div className="container">
+          <h2 className="text-center mb-4">Our Services</h2>
+          <div className="row">
+            <div className="col-md-4">
+              <div className="card mb-4 shadow-sm">
+                <div className="card-header">
+                  <h5 className="my-0 font-weight-normal">Cleaning Services</h5>
+                </div>
+                <div className="card-body">
+                  <h5 className="card-title">Home Cleaning</h5>
+                  <p className="card-text">
+                    Enjoy a spotless and serene home environment.
+                  </p>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={() => navigate('/booking/home-cleaning')}
+                  >
+                    Learn More
+                  </button>
                 </div>
               </div>
-            </nav>
-          </div >
-        </div >
-        <div className='flatter'>
-          <div className="row">
-            <div className="col">
-              <div style={{ height: "200px" }}></div>
-              <div className='' >
-                <h1 className='text1'>We make the cleaning effortless. </h1>
-
-                <center>
-                  <button className='orderButton'
-                   
-                    onClick={() => (navigate('/signin'))}
-                  >Book Now</button>
-                </center>
+            </div>
+            <div className="col-md-4">
+              <div className="card mb-4 shadow-sm">
+                <div className="card-header">
+                  <h5 className="my-0 font-weight-normal">Pest Control</h5>
+                </div>
+                <div className="card-body">
+                  <h5 className="card-title">Pest Control</h5>
+                  <p className="card-text">
+                    Safe and effective solutions to keep pests at bay.
+                  </p>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={() => navigate('/booking/pest-control')}
+                  >
+                    Learn More
+                  </button>
+                </div>
               </div>
-              <div style={{ height: "200px" }}></div>
+            </div>
+            <div className="col-md-4">
+              <div className="card mb-4 shadow-sm">
+                <div className="card-header">
+                  <h5 className="my-0 font-weight-normal">Moving Services</h5>
+
+                </div>
+                <div className="card-body">
+                  <h5 className="card-title">Moving Services</h5>
+                  <p className="card-text">
+                    Professional moving assistance tailored to your needs.
+                  </p>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={() => navigate('/booking/moving-services')}
+                  >
+                    Learn More
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <div className='container'>
-        <div className="row">
-          <div className="col">
-
-            <div className='card'>
-              <div className='card-header'>
-                <img src={deal1} className='deal1 img img-thumbnail img-fluid'></img>
-              </div>
-              <div className="card-body">
-                <h1>Home Cleaning</h1>
-              </div>
-
-            </div>
-          </div>
-          <div className="col">
-            <div className='card'>
-              <div className='card-header'>
-                <img src={deal2} className='deal1 img img-thumbnail img-fluid'></img>
-              </div>
-              <div className="card-body">
-                <h1>Pest control</h1>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div><br />
-      <br />
-      <br />
-      <br />
+      </section>
     </div>
   )
 }
-
-
